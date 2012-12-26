@@ -13,4 +13,5 @@ public class Constant {
 	
 	//错误信息
 	public static final String EXCEPTION_MESSAGE_NO_CONSTRUCTORS = "no constructors found";
+	public static final String EXCEPTION_MESSAGE_NO_METHODS = "no methods found";
 }
