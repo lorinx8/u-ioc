@@ -3,7 +3,7 @@ package me.bukp.uioc.context;
 import java.lang.reflect.Constructor;
 import java.util.List;
 
-import me.bukp.uioc.common.Constant;
+import me.bukp.uioc.common.Constants;
 import me.bukp.uioc.common.IocTools;
 import me.bukp.uioc.exception.BeanCreateException;
 
@@ -65,7 +65,7 @@ public class BeanCreator {
 		if (constructor != null) {
 			return constructor;
 		}
-		throw new BeanCreateException(Constant.EXCEPTION_MESSAGE_NO_CONSTRUCTORS);
+		throw new BeanCreateException(Constants.EXCEPTION_MESSAGE_NO_CONSTRUCTORS);
 	}
 	
 	/**
