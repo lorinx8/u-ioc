@@ -65,7 +65,7 @@ public class BeanCreator {
 		if (constructor != null) {
 			return constructor;
 		}
-		throw new BeanCreateException(Constants.EXCEPTION_MESSAGE_NO_CONSTRUCTORS);
+		throw new BeanCreateException(Constants.EXCEPTION_MESSAGE_NO_CONSTRUCTOR);
 	}
 	
 	/**

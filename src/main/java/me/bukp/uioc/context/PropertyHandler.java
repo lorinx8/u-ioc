@@ -69,7 +69,7 @@ public class PropertyHandler {
 		if (setter != null) {
 			return setter;
 		}
-		throw new PropertyHandleException(Constants.EXCEPTION_MESSAGE_NO_METHODS);
+		throw new PropertyHandleException(Constants.EXCEPTION_MESSAGE_NO_METHOD);
 	}
 	
 	/**

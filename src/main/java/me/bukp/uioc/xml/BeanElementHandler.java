@@ -1,16 +1,23 @@
 package me.bukp.uioc.xml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import me.bukp.uioc.common.Constants;
+import me.bukp.uioc.domain.DataElement;
+import me.bukp.uioc.domain.ReferElement;
+import me.bukp.uioc.domain.ValueElement;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 
 public class BeanElementHandler extends ElementHandler {
 	
+	/**
+	 * bean id 与 bean元素的键值对集合
+	 */
 	protected Map<String, Element> beanElmentsMap = new HashMap<>();
 	
 	public BeanElementHandler() {}
@@ -37,6 +44,24 @@ public class BeanElementHandler extends ElementHandler {
 		for (Element e : es) {
 			beanElmentsMap.put(getElementAttributeValue(e, Constants.BEAN_PROPERTY_ID), e);
 		}
+	}
+	
+	/**
+	 * 根据bean id得到bean节点元素对象
+	 * @param id bean id
+	 * @return bean节点元素对象
+	 */
+	public Element getBeanElement(String id) {
+		return beanElmentsMap.get(id);
+	}
+	
+	/**
+	 * method description
+	 * @param e
+	 * @return
+	 */
+	public String getBeanClassName(Element e) {
+		return getElementAttributeValue(e, Constants.BEAN_PROPERTY_CLASS);
 	}
 	
 	/**
@@ -71,6 +96,25 @@ public class BeanElementHandler extends ElementHandler {
 	public List<Element> getConstructorElements(Element e) {
 		return getSubElementsByName(e, Constants.BEAN_ELEMENT_CONSTRUCTOR_ARG);
 	}
+	
+	public List<DataElement> getConstructorData(Element e) {
+		List<Element> cons = getConstructorElements(e);
+		List<DataElement> consData = new ArrayList<>();
+		for (Element con : cons) {
+			// opp!
+			Element d = (Element)con.elements().get(0);
+			if (d.getName().equals(Constants.CONSTRUCTOR_ARG_TYPE_VALUE)) {
+				DataElement ve = new ValueElement(d.getText());
+				consData.add(ve);
+			} else {
+				DataElement re = new ReferElement(getElementAttributeValue(d, 
+						Constants.CONSTRUCTOR_ARG_REF_ARRT_BEAN));
+				consData.add(re);
+			}
+		}
+		return consData;
+	}
+	
 
 	/**
 	 * 得到Bean元素节点中，属性节点元素集合
