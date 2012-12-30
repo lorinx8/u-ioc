@@ -1,5 +1,6 @@
 package me.bukp.uioc.context;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,6 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		if (!isSingleton(id)) {
 			return createBean(id);
 		}
-		
 		Object obj = beanPool.get(id);
 		if (obj != null) {
 			return obj;
@@ -64,8 +64,7 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		}
 		return null;
 	}
-	
-	
+
 	/**
 	 * 根据bean id创建bean
 	 * @param id bean id
@@ -104,5 +103,18 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 			}
 		}
 		return args;
+	}
+	
+	protected void autowireByName(Object obj) {
+		Map<String, Method> setters = PropertyHandler.getSetterMethods(obj);
+		for (String property : setters.keySet()) {
+			Element e = elementHandler.getBeanElement(property);
+			if (e == null) {
+				continue;
+			}
+			Object bean = this.getBean(property, true);
+			Method method = setters.get(property);
+			PropertyHandler.executeSetterMethod(obj, bean, method);
+		}
 	}
 }

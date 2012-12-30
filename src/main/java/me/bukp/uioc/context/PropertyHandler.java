@@ -6,6 +6,7 @@ import java.util.Map;
 
 import me.bukp.uioc.common.Constants;
 import me.bukp.uioc.common.IocTools;
+import me.bukp.uioc.exception.BeanCreateException;
 import me.bukp.uioc.exception.PropertyHandleException;
 
 /**
@@ -50,6 +51,14 @@ public class PropertyHandler {
 			}
 		}
 		return methodsMap;
+	}
+	
+	public static void executeSetterMethod(Object obj, Object bean, Method method) {
+		try {
+			method.invoke(obj, bean);
+		} catch (Exception e) {
+			throw new BeanCreateException(e.getMessage());
+		}
 	}
 	
 	/**
