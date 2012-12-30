@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import me.bukp.uioc.common.Constants;
+import me.bukp.uioc.domain.Autowire;
+import me.bukp.uioc.domain.ByNameAutowire;
 import me.bukp.uioc.domain.DataElement;
+import me.bukp.uioc.domain.NoAutowire;
+import me.bukp.uioc.domain.PropertyElement;
 import me.bukp.uioc.domain.ReferElement;
 import me.bukp.uioc.domain.ValueElement;
 
@@ -103,25 +107,57 @@ public class BeanElementHandler extends ElementHandler {
 		for (Element con : cons) {
 			// opp!
 			Element d = (Element)con.elements().get(0);
-			if (d.getName().equals(Constants.CONSTRUCTOR_ARG_TYPE_VALUE)) {
-				DataElement ve = new ValueElement(d.getText());
-				consData.add(ve);
-			} else {
-				DataElement re = new ReferElement(getElementAttributeValue(d, 
-						Constants.CONSTRUCTOR_ARG_REF_ARRT_BEAN));
-				consData.add(re);
-			}
+			consData.add(getDataElement(d));
 		}
 		return consData;
 	}
 	
+	private DataElement getDataElement(Element e) {
+		DataElement de = null;
+		if (e.getName().equals(Constants.CONSTRUCTOR_ARG_TYPE_VALUE)) {
+			de = new ValueElement(e.getText());
+			
+		} else {
+			de = new ReferElement(getElementAttributeValue(e, 
+					Constants.CONSTRUCTOR_ARG_REF_ARRT_BEAN));
+		}
+		return de;
+	}
 
 	/**
 	 * 得到Bean元素节点中，属性节点元素集合
-	 * @param e bean元素对象
+	 * @param be bean元素对象
 	 * @return 属性节点元素集合
 	 */
-	public List<Element> getPropertyrElements(Element e) {
-		return getSubElementsByName(e, Constants.BEAN_ELEMENT_PROPERTY);
+	public List<Element> getPropertyrElements(Element be) {
+		return getSubElementsByName(be, Constants.BEAN_ELEMENT_PROPERTY);
+	}
+	
+	public List<PropertyElement> getPropertyData(Element be) {
+		List<Element> properties = this.getPropertyrElements(be);
+		List<PropertyElement> propertyData = new ArrayList<>();
+		for (Element property : properties) {
+			Element d = (Element)property.elements().get(0);
+			String name = this.getElementAttributeValue(property, Constants.BEAN_PROPERTY_NAME);
+			DataElement de = getDataElement(d);
+			PropertyElement pe = new PropertyElement(name, de);
+			propertyData.add(pe);
+		}
+		return propertyData;
+	}
+	
+	/**
+	 * 得到bean元素节点自动装配属性
+	 * @param be bean元素对象
+	 * @return 自动装配对象
+	 */
+	public Autowire getAutowire(Element be) {
+		String pvalue = getElementAttributeValue(be.getParent(), Constants.BEANS_PROPERTY_DEFAULT_AUTOWIRE);
+		String value = this.getElementAttributeValue(be, Constants.BEAN_PROPERTY_AUTOWIRE);
+		if (value.equals(Constants.BEAN_PROPERTY_AUTOWIRE_BYNAME) || 
+				pvalue.equals(Constants.BEAN_PROPERTY_AUTOWIRE_BYNAME)) {
+			return new ByNameAutowire();
+		}
+		return new NoAutowire();
 	}
 }

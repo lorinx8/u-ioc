@@ -8,10 +8,15 @@ public class Constants {
 	
 	//配置文件中出现的常量字符串
 	public static final String BEANS_PROPERTY_DEFAULT_LAZY_INIT = "default-lazy-init";
+	public static final String BEANS_PROPERTY_DEFAULT_AUTOWIRE = "default-autowire";
 	public static final String BEAN_PROPERTY_ID = "id";
 	public static final String BEAN_PROPERTY_LAZY_INIT = "lazy-init";
 	public static final String BEAN_PROPERTY_SINGLETON = "singleton";
 	public static final String BEAN_PROPERTY_CLASS = "class";
+	public static final String BEAN_PROPERTY_AUTOWIRE = "autowire";
+	public static final String BEAN_PROPERTY_AUTOWIRE_BYNAME = "byName";
+	public static final String BEAN_PROPERTY_AUTOWIRE_NO = "no";
+	public static final String BEAN_PROPERTY_NAME = "name";
 	public static final String BEAN_ELEMENT_CONSTRUCTOR_ARG = "constructor-arg";
 	public static final String BEAN_ELEMENT_PROPERTY = "property";
 	public static final String CONSTRUCTOR_ARG_TYPE_VALUE = "value";

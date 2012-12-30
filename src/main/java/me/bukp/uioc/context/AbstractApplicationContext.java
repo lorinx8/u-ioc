@@ -57,16 +57,20 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		if (obj != null) {
 			return obj;
 		}
-		
 		if (create) {
 			obj = createBean(id);
 			beanPool.put(id, obj);
 			return obj;
 		}
-		
 		return null;
 	}
 	
+	
+	/**
+	 * 根据bean id创建bean
+	 * @param id bean id
+	 * @return 创建出的bean对象
+	 */
 	protected Object createBean(String id) {
 		Element be = elementHandler.getBeanElement(id);
 		if (be == null) {
