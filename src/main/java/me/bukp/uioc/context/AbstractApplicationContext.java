@@ -9,7 +9,10 @@ import java.util.Map;
 import org.dom4j.Element;
 
 import me.bukp.uioc.common.Constants;
+import me.bukp.uioc.domain.Autowire;
+import me.bukp.uioc.domain.ByNameAutowire;
 import me.bukp.uioc.domain.DataElement;
+import me.bukp.uioc.domain.PropertyElement;
 import me.bukp.uioc.exception.BeanCreateException;
 import me.bukp.uioc.xml.BeanElementHandler;
 
@@ -40,10 +43,16 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	 */
 	@Override
 	public boolean isSingleton(String id) {
-		Element e = elementHandler.getBeanElement(id);
-		return elementHandler.isSingleton(e);
+		Element be = elementHandler.getBeanElement(id);
+		return elementHandler.isSingleton(be);
 	}
 
+	protected Autowire getAutowire(String id) {
+		Element be = elementHandler.getBeanElement(id);
+		return elementHandler.getAutowire(be);
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see me.bukp.uioc.context.ApplicationContext#getBean(java.lang.String, boolean)
 	 */
@@ -59,6 +68,16 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		}
 		if (create) {
 			obj = createBean(id);
+			
+			//自动装配，设值注入
+			Autowire autowire = this.getAutowire(id);
+			if (autowire instanceof ByNameAutowire) {
+				//自动装配
+				this.autowireByName(obj);
+			} else {
+				//根据属性设值注入
+				this.propertiesInject(obj, id);
+			}
 			beanPool.put(id, obj);
 			return obj;
 		}
@@ -78,6 +97,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		return Instance(be);
 	}
 	
+	/**
+	 * 根据bean节点元素实例化bean
+	 * @param be xml文件中的bean元素对象
+	 * @return bean对象
+	 */
 	protected Object Instance(Element be) {
 		String className = elementHandler.getBeanClassName(be);
 		List<Object> args = getConstructorArgs(be);
@@ -88,6 +112,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		}
 	}
 	
+	/**
+	 * 根据xml的bean节点元素对象得到构造函数参数对象
+	 * @param be bean节点元素对象
+	 * @return 构造函数参数对象集合
+	 */
 	protected List<Object> getConstructorArgs(Element be){
 		List<Object> args = new ArrayList<>();
 		List<DataElement> des = elementHandler.getConstructorData(be);
@@ -105,6 +134,10 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		return args;
 	}
 	
+	/**
+	 * 通过属性名进行自动注入
+	 * @param 待注入的对象
+	 */
 	protected void autowireByName(Object obj) {
 		Map<String, Method> setters = PropertyHandler.getSetterMethods(obj);
 		for (String property : setters.keySet()) {
@@ -116,5 +149,23 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 			Method method = setters.get(property);
 			PropertyHandler.executeSetterMethod(obj, bean, method);
 		}
+	}
+	
+	/**
+	 * 根据属性进行设值注入
+	 * @param obj 待注入的对象
+	 * @param be xml文件中的bean元素对象
+	 */
+	protected void propertiesInject(Object obj, String id) {
+		Element be = elementHandler.getBeanElement(id);
+		List<PropertyElement> properties = elementHandler.getPropertyData(be);
+		Map<String, Object> propertiesMap = new HashMap<>();
+		
+		for (PropertyElement property : properties) {
+			String name = property.getName();
+			Object value = property.getDataElement().getValue();
+			propertiesMap.put(name, value);
+		}
+		PropertyHandler.setProperties(obj, propertiesMap);
 	}
 }

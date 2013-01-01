@@ -129,12 +129,12 @@ public class BeanElementHandler extends ElementHandler {
 	 * @param be bean元素对象
 	 * @return 属性节点元素集合
 	 */
-	public List<Element> getPropertyrElements(Element be) {
+	public List<Element> getPropertyElements(Element be) {
 		return getSubElementsByName(be, Constants.BEAN_ELEMENT_PROPERTY);
 	}
 	
 	public List<PropertyElement> getPropertyData(Element be) {
-		List<Element> properties = this.getPropertyrElements(be);
+		List<Element> properties = this.getPropertyElements(be);
 		List<PropertyElement> propertyData = new ArrayList<>();
 		for (Element property : properties) {
 			Element d = (Element)property.elements().get(0);
