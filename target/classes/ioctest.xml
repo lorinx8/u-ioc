@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans SYSTEM "beans.dtd" >
+
+<beans>
+<bean class="me.bukp.test.Object1" id="test1">
+	<constructor-arg>
+		<value type="java.lang.String">test</value>
+	</constructor-arg>
+</bean>
+
+
+<bean class="me.bukp.test.Object2" id="test2">
+</bean>
+
+<bean class="me.bukp.test.Object3" id="test3" lazy-init="true"></bean>
+</beans>

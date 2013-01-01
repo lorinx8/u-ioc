@@ -78,7 +78,7 @@ public class BeanElementHandler extends ElementHandler {
 	}
 	
 	/**
-	 * method description
+	 * 根据bean元素对象得到其class属性
 	 * @param e
 	 * @return
 	 */
@@ -92,12 +92,19 @@ public class BeanElementHandler extends ElementHandler {
 	 * @return Bean元素是否延迟加载
 	 */
 	public boolean isLazy(Element e) {
-		boolean lazy = Boolean.getBoolean(getElementAttributeValue(e, Constants.BEAN_PROPERTY_LAZY_INIT));
-		Element p = e.getParent();
-		boolean pLzay = Boolean.getBoolean(getElementAttributeValue(p, Constants.BEANS_PROPERTY_DEFAULT_LAZY_INIT));
-		if (lazy || pLzay) {
-			return true;
+		//如果bean元素节点包含lazy-init属性
+		String cLazy = this.getElementAttributeValue(e, Constants.BEAN_PROPERTY_LAZY_INIT);
+		if (cLazy != null) {
+			return Boolean.parseBoolean(cLazy);
 		}
+		
+		//如果没有，则从beans节点寻找
+		Element p = e.getParent();
+		String  pLzay= getElementAttributeValue(p, Constants.BEANS_PROPERTY_DEFAULT_LAZY_INIT);
+		if (pLzay != null) {
+			return Boolean.parseBoolean(pLzay);
+		}
+		//默认为不懒加载
 		return false;
 	}
 	
@@ -107,7 +114,12 @@ public class BeanElementHandler extends ElementHandler {
 	 * @return Bean元素是否单例
 	 */
 	public boolean isSingleton(Element e) {
-		return Boolean.getBoolean(getElementAttributeValue(e, Constants.BEAN_PROPERTY_SINGLETON));
+		String singleton = getElementAttributeValue(e, Constants.BEAN_PROPERTY_SINGLETON);
+		if (singleton != null) {
+			return Boolean.parseBoolean(singleton);
+		}
+		//默认是单例
+		return true;
 	}
 	
 	/**

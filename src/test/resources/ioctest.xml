@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans SYSTEM "beans.dtd" >
+
+<beans default-lazy-init="false">
+
+	<bean class="me.bukp.test.Object1" id="test1"></bean>
+	<bean class="me.bukp.test.Object2" id="test2"></bean>
+
+	<bean class="me.bukp.test.Object3" id="lazytest1" lazy-init="true"></bean>
+	<bean class="me.bukp.test.Object4" id="lazytest2"></bean>
+	<bean class="me.bukp.test.Object5" id="lazytest3" lazy-init="false"></bean>
+
+	<bean class="me.bukp.test.Object6" id="singletontest1" singleton="true"></bean>
+	<bean class="me.bukp.test.Object7" id="singletontest2" singleton="false"></bean>
+	<bean class="me.bukp.test.Object8" id="singletontest3"></bean>
+
+	<bean class="me.bukp.test.Object9" id="constest1">
+		<constructor-arg>
+			<value type="java.lang.String">test1</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value type="java.lang.Integer">1</value>
+		</constructor-arg>
+	</bean>
+
+
+
+</beans>
