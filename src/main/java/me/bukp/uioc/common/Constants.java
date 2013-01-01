@@ -19,6 +19,7 @@ public class Constants {
 	public static final String BEAN_PROPERTY_NAME = "name";
 	public static final String BEAN_ELEMENT_CONSTRUCTOR_ARG = "constructor-arg";
 	public static final String BEAN_ELEMENT_PROPERTY = "property";
+	public static final String BEAN_VALUE_TYPE = "type";
 	public static final String CONSTRUCTOR_ARG_TYPE_VALUE = "value";
 	public static final String CONSTRUCTOR_ARG_TYPE_REF = "ref";
 	public static final String CONSTRUCTOR_ARG_REF_ARRT_BEAN = "bean";

@@ -1,5 +1,6 @@
 package me.bukp.uioc.xml;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,7 @@ import me.bukp.uioc.domain.NoAutowire;
 import me.bukp.uioc.domain.PropertyElement;
 import me.bukp.uioc.domain.ReferElement;
 import me.bukp.uioc.domain.ValueElement;
+import me.bukp.uioc.exception.XmlParseException;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -145,8 +147,15 @@ public class BeanElementHandler extends ElementHandler {
 	private DataElement getDataElement(Element e) {
 		DataElement de = null;
 		if (e.getName().equals(Constants.CONSTRUCTOR_ARG_TYPE_VALUE)) {
-			de = new ValueElement(e.getText());
-			
+			String type = this.getElementAttributeValue(e, Constants.BEAN_VALUE_TYPE);
+			String value = e.getText();
+			try {
+				Class<?> clazz = Class.forName(type);
+				Constructor<?> constructor = clazz.getConstructor(String.class);
+				de = new ValueElement(constructor.newInstance(value));
+			} catch (Exception ex) {
+				throw new XmlParseException(ex.getMessage());
+			}
 		} else {
 			de = new ReferElement(getElementAttributeValue(e, 
 					Constants.CONSTRUCTOR_ARG_REF_ARRT_BEAN));

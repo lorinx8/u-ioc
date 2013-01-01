@@ -21,8 +21,11 @@
 		<constructor-arg>
 			<value type="java.lang.Integer">1</value>
 		</constructor-arg>
+		<constructor-arg>
+			<ref bean="test1"/>
+		</constructor-arg>
+		<constructor-arg>
+			<value type="java.lang.Double">1.2</value>
+		</constructor-arg>
 	</bean>
-
-
-
 </beans>
