@@ -2,10 +2,12 @@ package me.bukp.uioc.test;
 
 import static org.junit.Assert.*;
 
+import java.beans.PropertyDescriptor;
 import java.net.URL;
 import java.util.List;
 
 import me.bukp.uioc.domain.DataElement;
+import me.bukp.uioc.domain.PropertyElement;
 import me.bukp.uioc.domain.ReferElement;
 import me.bukp.uioc.domain.ValueElement;
 import me.bukp.uioc.xml.BeanElementHandler;
@@ -89,5 +91,28 @@ public class XmlTest {
 		DataElement de4 = args.get(3);
 		assertTrue(de4 instanceof ValueElement);
 		assertEquals(1.2, de4.getValue());
+	}
+	
+	@Test
+	public void propertiesTest() {
+		Element e = elementHandler.getBeanElement("propertytest1");
+		List<PropertyElement> props = elementHandler.getPropertyData(e);
+		
+		assertEquals(3, props.size());
+		
+		PropertyElement pe1 = props.get(0);
+		assertEquals("prop1", pe1.getName());
+		assertTrue(pe1.getDataElement() instanceof ValueElement);
+		assertEquals("test1", pe1.getDataElement().getValue());
+		
+		PropertyElement pe2 = props.get(1);
+		assertEquals("prop2", pe2.getName());
+		assertTrue(pe2.getDataElement() instanceof ValueElement);
+		assertEquals(1, pe2.getDataElement().getValue());
+		
+		PropertyElement pe3 = props.get(2);
+		assertEquals("prop3", pe3.getName());
+		assertTrue(pe3.getDataElement() instanceof ReferElement);
+		assertEquals("test1", pe3.getDataElement().getValue());
 	}
 }

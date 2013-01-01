@@ -22,10 +22,22 @@
 			<value type="java.lang.Integer">1</value>
 		</constructor-arg>
 		<constructor-arg>
-			<ref bean="test1"/>
+			<ref bean="test1" />
 		</constructor-arg>
 		<constructor-arg>
 			<value type="java.lang.Double">1.2</value>
 		</constructor-arg>
+	</bean>
+
+	<bean class="me.bukp.test.Object10" id="propertytest1">
+		<property name="prop1">
+			<value type="java.lang.String">test1</value>
+		</property>
+		<property name="prop2">
+			<value type="java.lang.Integer">1</value>
+		</property>
+		<property name="prop3">
+			<ref bean="test1" />
+		</property>
 	</bean>
 </beans>

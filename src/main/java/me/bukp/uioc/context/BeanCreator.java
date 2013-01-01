@@ -99,5 +99,4 @@ public class BeanCreator {
 		}
 		return clazzs;
 	}
-
 }
