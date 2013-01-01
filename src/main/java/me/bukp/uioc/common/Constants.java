@@ -32,4 +32,8 @@ public class Constants {
 	public static final String EXCEPTION_MESSAGE_NO_CONSTRUCTOR = "no constructor found";
 	public static final String EXCEPTION_MESSAGE_NO_METHOD = "no method found";
 	public static final String EXCEPTION_MESSAGE_NO_ELEMENT = "no element found";
+	
+	//文件名相关
+	public static final String FILE_XML_EXTEND = "xml";
+	public static final String FILE_XML_PREFIX = "applicationcontext";
 }

@@ -26,4 +26,14 @@ public class IocTools {
 		}
 		return result;
 	}
+	
+	/**
+	 * 根据文件名得到文件扩展名
+	 * @param name
+	 * @return 文件扩展名
+	 */
+	public static String getPostfix(String name) {
+		int last = name.lastIndexOf(".");
+		return name.substring(last + 1, name.length());
+	}
 }

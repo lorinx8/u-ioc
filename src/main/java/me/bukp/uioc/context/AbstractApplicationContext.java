@@ -24,10 +24,14 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	protected Map<String, Object> beanPool = new HashMap<>();
 
 	/**
-	 * 初始化bean元素对象
-	 * @param paths
+	 * 根据文件路径初始化bean元素对象
+	 * @param paths 文件绝对路径
 	 */
-	protected abstract void InitBeanElements(String[] paths);
+	protected void InitBeanElements(String[] paths) {
+		for (String path : paths) {
+			elementHandler.addBeanElements(path);
+		}
+	}
 	
 	/* (non-Javadoc)
 	 * @see me.bukp.uioc.context.ApplicationContext#containsBean(java.lang.String)
@@ -45,6 +49,11 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 	public boolean isSingleton(String id) {
 		Element be = elementHandler.getBeanElement(id);
 		return elementHandler.isSingleton(be);
+	}
+	
+	protected boolean isLazy(String id) {
+		Element be = elementHandler.getBeanElement(id);
+		return elementHandler.isLazy(be);
 	}
 
 	protected Autowire getAutowire(String id) {
@@ -94,7 +103,9 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		if (be == null) {
 			throw new BeanCreateException(Constants.EXCEPTION_MESSAGE_NO_ELEMENT);
 		}
-		return Instance(be);
+		Object obj = Instance(be);
+		beanPool.put(id, obj);
+		return obj;
 	}
 	
 	/**

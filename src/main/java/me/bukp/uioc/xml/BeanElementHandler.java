@@ -32,7 +32,17 @@ public class BeanElementHandler extends ElementHandler {
 	 * @exception XmlParseException
 	 */
 	public BeanElementHandler(String... filePaths) {
-		List<Document> docs = getDocument(filePaths);
+		for (String file : filePaths) {
+			addBeanElements(file);
+		}
+	}
+	
+	/**
+	 * 向BeanElementHandler实例中，添加xml文档对象中包含的Bean元素
+	 * @param path xml文件路径
+	 */
+	public void addBeanElements(String path) {
+		List<Document> docs = getDocument(path);
 		for (int i = 0; i < docs.size(); i++) {
 			addBeanElements(docs.get(i));
 		}
@@ -57,6 +67,14 @@ public class BeanElementHandler extends ElementHandler {
 	 */
 	public Element getBeanElement(String id) {
 		return beanElmentsMap.get(id);
+	}
+	
+	/**
+	 * 得到BeanElementHandler容器中的所有bena节点元素对象集合
+	 * @return bena节点元素对象集合
+	 */
+	public Map<String, Element> getBeanElements() {
+		return beanElmentsMap;
 	}
 	
 	/**
