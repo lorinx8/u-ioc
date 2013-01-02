@@ -2,11 +2,13 @@ package me.bukp.uioc.test;
 
 import static org.junit.Assert.*;
 
-import java.beans.PropertyDescriptor;
 import java.net.URL;
 import java.util.List;
 
+import me.bukp.uioc.domain.Autowire;
+import me.bukp.uioc.domain.ByNameAutowire;
 import me.bukp.uioc.domain.DataElement;
+import me.bukp.uioc.domain.NoAutowire;
 import me.bukp.uioc.domain.PropertyElement;
 import me.bukp.uioc.domain.ReferElement;
 import me.bukp.uioc.domain.ValueElement;
@@ -33,7 +35,7 @@ public class XmlTest {
 
 	@Test
 	public void elementInitTest() {
-		assertEquals(9, elementHandler.getBeanElements().keySet().size());
+		assertEquals(14, elementHandler.getBeanElements().keySet().size());
 	}
 	
 	@Test
@@ -114,5 +116,26 @@ public class XmlTest {
 		assertEquals("prop3", pe3.getName());
 		assertTrue(pe3.getDataElement() instanceof ReferElement);
 		assertEquals("test1", pe3.getDataElement().getValue());
+	}
+	
+	@Test
+	public void autowireTest() {
+		
+		Element e = elementHandler.getBeanElement("autowiretest1");
+		Autowire auto1 = elementHandler.getAutowire(e);
+		assertTrue(auto1 instanceof NoAutowire);
+		
+		e = elementHandler.getBeanElement("autowiretest2");
+		Autowire auto2 = elementHandler.getAutowire(e);
+		assertTrue(auto2 instanceof NoAutowire);
+		
+		e = elementHandler.getBeanElement("autowiretest3");
+		Autowire auto3 = elementHandler.getAutowire(e);
+		assertTrue(auto3 instanceof ByNameAutowire);
+		
+		e = elementHandler.getBeanElement("autowiretest4");
+		Autowire auto4 = elementHandler.getAutowire(e);
+		assertTrue(auto4 instanceof NoAutowire);
+		
 	}
 }

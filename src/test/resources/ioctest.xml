@@ -40,4 +40,11 @@
 			<ref bean="test1" />
 		</property>
 	</bean>
+
+
+	<bean class="me.bukp.test.Object11" id="autowiretest1" autowire="default"></bean>
+	<bean class="me.bukp.test.Object12" id="autowiretest2" autowire="no"></bean>
+	<bean class="me.bukp.test.Object13" id="autowiretest3" autowire="byName"></bean>
+	<bean class="me.bukp.test.Object14" id="autowiretest4"></bean>
+
 </beans>

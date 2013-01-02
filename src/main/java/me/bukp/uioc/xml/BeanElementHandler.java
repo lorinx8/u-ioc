@@ -193,10 +193,23 @@ public class BeanElementHandler extends ElementHandler {
 	public Autowire getAutowire(Element be) {
 		String pvalue = getElementAttributeValue(be.getParent(), Constants.BEANS_PROPERTY_DEFAULT_AUTOWIRE);
 		String value = this.getElementAttributeValue(be, Constants.BEAN_PROPERTY_AUTOWIRE);
-		if (value.equals(Constants.BEAN_PROPERTY_AUTOWIRE_BYNAME) || 
-				pvalue.equals(Constants.BEAN_PROPERTY_AUTOWIRE_BYNAME)) {
-			return new ByNameAutowire();
+		
+		if (Constants.BEAN_PROPERTY_AUTOWIRE_BYNAME.equals(pvalue)) {
+			
+			if (Constants.BEAN_PROPERTY_AUTOWIRE_NO.equals(value)) {
+				return new NoAutowire();
+			} else {
+				return new ByNameAutowire();
+			}
+			
+		} else {
+			
+			if (Constants.BEAN_PROPERTY_AUTOWIRE_BYNAME.equals(value)) {
+				return new ByNameAutowire();
+			} else {
+				return new NoAutowire();
+			}
+			
 		}
-		return new NoAutowire();
 	}
 }
