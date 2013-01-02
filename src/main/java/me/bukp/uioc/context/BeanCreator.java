@@ -41,7 +41,7 @@ public class BeanCreator {
 		try {
 			Class<?> clazz = Class.forName(className);
 			Constructor<?> constructor = findConstructor(clazz, argsClass);
-			return constructor.newInstance(args);
+			return constructor.newInstance(args.toArray());
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new BeanCreateException(e.getMessage());

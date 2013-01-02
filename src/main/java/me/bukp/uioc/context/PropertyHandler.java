@@ -53,6 +53,12 @@ public class PropertyHandler {
 		return methodsMap;
 	}
 	
+	/**
+	 * 执行对象的setter方法
+	 * @param obj 执行setter方法的对象
+	 * @param bean setter方法参数
+	 * @param method setter方法
+	 */
 	public static void executeSetterMethod(Object obj, Object bean, Method method) {
 		try {
 			method.invoke(obj, bean);
