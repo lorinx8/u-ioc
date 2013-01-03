@@ -2,6 +2,7 @@ package me.bukp.uioc.test;
 
 import static org.junit.Assert.*;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,5 +35,26 @@ public class PropertyHandleTest {
 		assertTrue(user.getId().equals(1));
 		assertEquals("lorin", user.getName());
 		System.out.println(user);
+	}
+	
+	@Test
+	public void getSetterTest() {
+		User user = (User)BeanCreator.createBean(classname);
+		Map<String, Method> setterMap = PropertyHandler.getSetterMethods(user);
+		for (String methodName : setterMap.keySet()) {
+			System.out.println(methodName);
+			System.out.println(setterMap.get(methodName));
+		}
+	}
+	
+	@Test
+	public void executeSetterTest() {
+		Object obj = BeanCreator.createBean(classname);
+		Object bean = "lorin";
+		Map<String, Method> setterMap = PropertyHandler.getSetterMethods(obj);
+		Method method = setterMap.get("name");
+		PropertyHandler.executeSetterMethod(obj, bean, method);
+		
+		assertEquals("lorin", ((User)obj).getName());
 	}
 }

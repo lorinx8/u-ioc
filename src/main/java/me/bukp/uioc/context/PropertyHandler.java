@@ -128,10 +128,9 @@ public class PropertyHandler {
 	 * @return 属性名
 	 */
 	private static String getPropertyName(String methodName) {
-		int length = methodName.length();
-		String field = methodName.substring(3, length);
+		String field = methodName.substring(3, methodName.length());
 		String first = field.substring(0, 1).toLowerCase();
-		String other = field.substring(1, length);
+		String other = field.substring(1, field.length());
 		return first + other;
 	}
 }
