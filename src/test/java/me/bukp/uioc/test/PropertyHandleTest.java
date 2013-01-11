@@ -8,6 +8,7 @@ import java.util.Map;
 
 import me.bukp.uioc.context.BeanCreator;
 import me.bukp.uioc.context.PropertyHandler;
+import me.bukp.uioc.test.object.User;
 
 import org.junit.After;
 import org.junit.Before;

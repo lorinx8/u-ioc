@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.bukp.uioc.context.BeanCreator;
+import me.bukp.uioc.test.object.User;
 
 import org.junit.After;
 import org.junit.Before;

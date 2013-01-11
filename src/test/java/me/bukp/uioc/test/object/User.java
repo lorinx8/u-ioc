@@ -1,9 +1,5 @@
-package me.bukp.uioc.test;
+package me.bukp.uioc.test.object;
 
-/**
- * Class just used for BeanCreator test
- * 2013-1-2
- */
 public class User {
 	
 	private Integer id;

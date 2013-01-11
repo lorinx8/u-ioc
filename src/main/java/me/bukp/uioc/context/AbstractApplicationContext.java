@@ -61,7 +61,14 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		return elementHandler.getAutowire(be);
 	}
 	
-	
+	/* (non-Javadoc)
+	 * @see me.bukp.uioc.context.ApplicationContext#getBean(java.lang.String)
+	 */
+	@Override
+	public Object getBean(String id) {
+		return this.getBean(id, false);
+	}
+
 	/* (non-Javadoc)
 	 * @see me.bukp.uioc.context.ApplicationContext#getBean(java.lang.String, boolean)
 	 */

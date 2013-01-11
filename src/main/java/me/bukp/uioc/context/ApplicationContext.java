@@ -2,6 +2,14 @@ package me.bukp.uioc.context;
 
 public interface ApplicationContext {
 	
+	
+	/**
+	 * 根据id从容器中得到bean，如果找不到，则返回null
+	 * @param id id 配置文件中bean元素的id
+	 * @return bean实例
+	 */
+	Object getBean(String id);
+	
 	/**
 	 * 根据id从容器中得到bean，如果找不到，根据create值决定是否创建
 	 * @param id 配置文件中bean元素的id

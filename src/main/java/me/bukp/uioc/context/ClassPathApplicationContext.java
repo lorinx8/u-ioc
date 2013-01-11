@@ -1,7 +1,7 @@
 package me.bukp.uioc.context;
 
 import java.io.File;
-import java.io.FilenameFilter;
+import java.io.FileFilter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,13 @@ import me.bukp.uioc.common.IocTools;
 public class ClassPathApplicationContext extends AbstractApplicationContext {
 	
 	public ClassPathApplicationContext() {
-		InitBeanElements(getClassPathXmlFiles());
+		InitBeanElements(this.getClassPathXmlFiles());
 		initBeans();
 	}
 
+	/**
+	 * 初始化非懒加载的bean
+	 */
 	private void initBeans() {
 		Set<String> ids = elementHandler.getBeanElements().keySet();
 		for (String id : ids) {
@@ -27,22 +30,26 @@ public class ClassPathApplicationContext extends AbstractApplicationContext {
 		}
 	}
 	
+	/**
+	 * 得到classpath中的xml文件
+	 * @return xml文件全路径字符串数组
+	 */
 	private String[] getClassPathXmlFiles() {
 		URL classPathUrl = ClassPathApplicationContext.class.getClassLoader().getResource(".");
 		String classPath = classPathUrl.getPath();
 		File file = new File(classPath);
 		List<String> xmlFiles = new ArrayList<>();
-		File[] matched = file.listFiles(new FilenameFilter() {
+		File[] matched = file.listFiles(new FileFilter() {
 			@Override
-			public boolean accept(File dir, String name) {
-				if (dir.isDirectory()) {
+			public boolean accept(File pathname) {
+				if (pathname.isDirectory()) {
 					return false;
 				}
-				name = name.toLowerCase();
-				if (!IocTools.getPostfix(name).equals(Constants.FILE_XML_EXTEND)) {
+				String filename  = pathname.getName().toLowerCase();
+				if (!IocTools.getPostfix(filename).equals(Constants.FILE_XML_EXTEND)) {
 					return false;
 				}
-				if (!name.startsWith(Constants.FILE_XML_PREFIX)) {
+				if (!filename.startsWith(Constants.FILE_XML_PREFIX)) {
 					return false;
 				}
 				return true;
@@ -51,6 +58,7 @@ public class ClassPathApplicationContext extends AbstractApplicationContext {
 		for (File f : matched) {
 			xmlFiles.add(classPath + f.getName());
 		}
-		return (String[])xmlFiles.toArray();
+		String[] paths = new String[xmlFiles.size()];
+		return xmlFiles.toArray(paths);
 	}
 }
