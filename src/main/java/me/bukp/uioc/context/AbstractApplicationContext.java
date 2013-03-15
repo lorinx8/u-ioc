@@ -84,17 +84,6 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 		}
 		if (create) {
 			obj = createBean(id);
-			
-			//自动装配，设值注入
-			Autowire autowire = this.getAutowire(id);
-			if (autowire instanceof ByNameAutowire) {
-				//自动装配
-				this.autowireByName(obj);
-			} else {
-				//根据属性设值注入
-				this.propertiesInject(obj, id);
-			}
-			beanPool.put(id, obj);
 			return obj;
 		}
 		return null;
@@ -111,6 +100,16 @@ public abstract class AbstractApplicationContext implements ApplicationContext {
 			throw new BeanCreateException(Constants.EXCEPTION_MESSAGE_NO_ELEMENT);
 		}
 		Object obj = Instance(be);
+
+		//自动装配，设值注入
+		Autowire autowire = this.getAutowire(id);
+		if (autowire instanceof ByNameAutowire) {
+			//自动装配
+			this.autowireByName(obj);
+		} else {
+			//根据属性设值注入
+			this.propertiesInject(obj, id);
+		}
 		beanPool.put(id, obj);
 		return obj;
 	}

@@ -66,4 +66,14 @@ public class ApplicationContextTest {
 		assertEquals(new Integer(1), classroom.getTeacher().getId());
 		assertEquals("lorin", classroom.getTeacher().getName());
 	}
+	
+	/**
+	 * 自动装配
+	 */
+	@Test
+	public void test5() {
+		ClassRoom autoroom = (ClassRoom)context.getBean("autoroom");
+		assertEquals(new Integer(1), autoroom.getTeacher().getId());
+		assertEquals("lorin", autoroom.getTeacher().getName());
+	}
 }

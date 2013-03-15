@@ -3,9 +3,11 @@
 
 <beans default-lazy-init="false">
 
+  <!-- 单例及非单例 -->
 	<bean class="me.bukp.uioc.test.object.Test1" id="test1"></bean>
 	<bean class="me.bukp.uioc.test.object.Test2" id="test2" singleton="false"></bean>
 	
+	<!-- 简单构造注入 -->
 	<bean class="me.bukp.uioc.test.object.Teacher" id="teacher">
 		<constructor-arg>
 			<value type="java.lang.Integer">1</value>
@@ -15,6 +17,7 @@
 		</constructor-arg>
 	</bean>
 	
+	<!-- 带引用的构造注入 -->
 	<bean class="me.bukp.uioc.test.object.ClassRoom" id="classroom">
 		<constructor-arg>
 			<value type="java.lang.String">moon</value>
@@ -23,4 +26,10 @@
 			<ref bean="teacher" />
 		</constructor-arg>
 	</bean>
+	
+	<!-- 自动装配 -->
+	<bean class="me.bukp.uioc.test.object.ClassRoom" id="autoroom" autowire="byName"></bean>
+	
+	
+	
 </beans>
