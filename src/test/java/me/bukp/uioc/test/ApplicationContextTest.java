@@ -76,4 +76,25 @@ public class ApplicationContextTest {
 		assertEquals(new Integer(1), autoroom.getTeacher().getId());
 		assertEquals("lorin", autoroom.getTeacher().getName());
 	}
+	
+	/**
+	 * 懒加载
+	 */
+	@Test
+	public void test6() {
+		Teacher teacher = (Teacher)context.getBean("lazyteacher");
+		assertNull(teacher);
+		teacher = (Teacher)context.getBean("lazyteacher", true);
+		assertNotNull(teacher);
+	}
+	
+	/**
+	 * 属性注入
+	 */
+	@Test
+	public void test7() {
+		Teacher teacher = (Teacher)context.getBean("propteacher");
+		assertEquals(new Integer(2), teacher.getId());
+		assertEquals("cheerup", teacher.getName());
+	}
 }

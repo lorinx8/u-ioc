@@ -3,10 +3,10 @@
 
 <beans default-lazy-init="false">
 
-  <!-- 单例及非单例 -->
+	<!-- 单例及非单例 -->
 	<bean class="me.bukp.uioc.test.object.Test1" id="test1"></bean>
 	<bean class="me.bukp.uioc.test.object.Test2" id="test2" singleton="false"></bean>
-	
+
 	<!-- 简单构造注入 -->
 	<bean class="me.bukp.uioc.test.object.Teacher" id="teacher">
 		<constructor-arg>
@@ -16,7 +16,7 @@
 			<value type="java.lang.String">lorin</value>
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 带引用的构造注入 -->
 	<bean class="me.bukp.uioc.test.object.ClassRoom" id="classroom">
 		<constructor-arg>
@@ -26,10 +26,23 @@
 			<ref bean="teacher" />
 		</constructor-arg>
 	</bean>
-	
+
 	<!-- 自动装配 -->
-	<bean class="me.bukp.uioc.test.object.ClassRoom" id="autoroom" autowire="byName"></bean>
-	
-	
-	
+	<bean class="me.bukp.uioc.test.object.ClassRoom" id="autoroom"
+		autowire="byName"></bean>
+
+	<!-- 懒加载 -->
+	<bean class="me.bukp.uioc.test.object.Teacher" id="lazyteacher"
+		lazy-init="true"></bean>
+
+	<!-- 属性注入 -->
+	<bean class="me.bukp.uioc.test.object.Teacher" id="propteacher">
+		<property name="id">
+			<value type="java.lang.Integer">2</value>
+		</property>
+		<property name="name">
+			<value type="java.lang.String">cheerup</value>
+		</property>
+	</bean>
+
 </beans>
